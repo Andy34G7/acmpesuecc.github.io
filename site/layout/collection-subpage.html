@@ -1,0 +1,50 @@
+{{ define "collection-subpage" }}
+{{ $PageData := index .DeepDataMerge.Collections .PageURL }}
+{{ template "head" . }}
+
+<body class="site-body">
+    {{ template "header" . }}
+
+    <div class="content-wrapper">
+        <main class="main-content" role="main">
+            <section class="collection-subpage-section">
+                <header class="page-header">
+                    <h1 class="page-title">Collection: {{ if $PageData }}{{ $PageData.Frontmatter.Title }}{{ end }}</h1>
+                </header>
+
+                <div class="posts-list-container">
+                    {{ $CollectionSet := index .DeepDataMerge.CollectionsMap .PageURL }}
+                    {{ range $CollectionSet }}
+                    <article class="post-preview-card">
+                        <div class="post-preview-content">
+                            <h2 class="post-preview-title">
+                                <a href="/{{ .CompleteURL }}">{{ .Frontmatter.Title }}</a>
+                            </h2>
+                            <div class="post-preview-meta">
+                                {{ if .Frontmatter.Date }}
+                                <time class="post-preview-date">{{ .Frontmatter.Date }}</time>
+                                {{ end }}
+                                {{ if .Frontmatter.Authors }}
+                                <span class="post-preview-authors">
+                                    by {{ range $i, $author := .Frontmatter.Authors }}{{ if $i }}, {{ end }}{{ $author }}{{ end }}
+                                </span>
+                                {{ end }}
+                            </div>
+                            {{ if .Frontmatter.Description }}
+                            <p class="post-preview-description">{{ .Frontmatter.Description }}</p>
+                            {{ end }}
+                            <div class="post-preview-footer">
+                                <a href="/{{ .CompleteURL }}" class="read-more-link">Read article &rarr;</a>
+                            </div>
+                        </div>
+                    </article>
+                    {{ end }}
+                </div>
+            </section>
+        </main>
+
+        {{ template "footer" . }}
+    </div>
+</body>
+</html>
+{{ end }}

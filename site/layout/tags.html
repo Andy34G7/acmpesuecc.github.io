@@ -1,0 +1,28 @@
+{{ define "all-tags" }}
+{{ $PageData := .TemplateData }}
+{{ template "head" . }}
+
+<body class="site-body">
+    {{ template "header" . }}
+
+    <div class="content-wrapper">
+        <main class="main-content" role="main">
+            <section class="tags-page">
+                <header class="page-header">
+                    <h1 class="page-title">BROWSE BY TAGS</h1>
+                    <p class="page-subtitle">Discover articles, guides, and projects indexed by topic.</p>
+                </header>
+
+                <div class="tags-cloud">
+                    {{ range .TagNames }}
+                    <a href="/tags/{{ . }}.html" class="tag-chip">#{{ . }}</a>
+                    {{ end }}
+                </div>
+            </section>
+        </main>
+
+        {{ template "footer" . }}
+    </div>
+</body>
+</html>
+{{ end }}

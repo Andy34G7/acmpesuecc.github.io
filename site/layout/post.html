@@ -1,0 +1,67 @@
+{{ define "post" }}
+{{ $PageData := index .DeepDataMerge.Templates .PageURL }}
+{{ template "head" . }}
+
+<body class="site-body">
+    {{ template "header" . }}
+
+    <div class="content-wrapper">
+        <main class="main-content" role="main">
+            <article class="post-single-container">
+                <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                    <a href="/collections/posts.html">&larr; Back to all posts</a>
+                </nav>
+
+                <header class="post-single-header">
+                    <h1 class="post-single-title">{{ $PageData.Frontmatter.Title }}</h1>
+                    
+                    <div class="post-single-meta">
+                        {{ if $PageData.Frontmatter.Date }}
+                        <span class="meta-item meta-date">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <time>{{ $PageData.Frontmatter.Date }}</time>
+                        </span>
+                        {{ end }}
+
+                        {{ if $PageData.Frontmatter.Authors }}
+                        <span class="meta-item meta-authors">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>{{ range $i, $a := $PageData.Frontmatter.Authors }}{{ if $i }}, {{ end }}{{ $a }}{{ end }}</span>
+                        </span>
+                        {{ end }}
+                    </div>
+
+                    {{ if $PageData.Frontmatter.Tags }}
+                    <div class="post-single-tags">
+                        {{ range $PageData.Frontmatter.Tags }}
+                        <a href="/tags/{{ . }}.html" class="tag-badge">#{{ . }}</a>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                </header>
+
+                <div class="post-single-body prose">
+                    {{ $PageData.Body }}
+                </div>
+
+                <footer class="post-single-footer">
+                    <div class="post-footer-nav">
+                        <a href="/collections/posts.html" class="btn btn-secondary">&larr; Back to all posts</a>
+                    </div>
+                </footer>
+            </article>
+        </main>
+
+        {{ template "footer" . }}
+    </div>
+</body>
+</html>
+{{ end }}

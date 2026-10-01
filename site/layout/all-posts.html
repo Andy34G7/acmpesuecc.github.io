@@ -1,0 +1,55 @@
+{{ define "all-posts" }}
+{{ $PageData := index .DeepDataMerge.Collections .PageURL }}
+{{ template "head" . }}
+
+<body class="site-body">
+    {{ template "header" . }}
+
+    <div class="content-wrapper">
+        <main class="main-content" role="main">
+            <section class="posts-listing-page">
+                <header class="page-header">
+                    <h1 class="page-title">ALL POSTS &amp; ARTICLES</h1>
+                    <p class="page-subtitle">Explorations, tutorials, challenge write-ups, and updates from the ACM PESU ECC chapter.</p>
+                </header>
+
+                <div class="posts-list-container">
+                    {{ range $Post := index .DeepDataMerge.CollectionsMap .PageURL }}
+                    <article class="post-preview-card">
+                        <div class="post-preview-content">
+                            <h2 class="post-preview-title">
+                                <a href="/{{ $Post.CompleteURL }}">{{ $Post.Frontmatter.Title }}</a>
+                            </h2>
+                            <div class="post-preview-meta">
+                                {{ if $Post.Frontmatter.Date }}
+                                <time class="post-preview-date">{{ $Post.Frontmatter.Date }}</time>
+                                {{ end }}
+                                {{ if $Post.Frontmatter.Authors }}
+                                <span class="post-preview-authors">
+                                    by {{ range $i, $author := $Post.Frontmatter.Authors }}{{ if $i }}, {{ end }}{{ $author }}{{ end }}
+                                </span>
+                                {{ end }}
+                            </div>
+                            {{ if $Post.Frontmatter.Description }}
+                            <p class="post-preview-description">{{ $Post.Frontmatter.Description }}</p>
+                            {{ end }}
+                            <div class="post-preview-footer">
+                                <div class="post-tags-list">
+                                    {{ range $Post.Frontmatter.Tags }}
+                                    <a href="/tags/{{ . }}.html" class="tag-badge">#{{ . }}</a>
+                                    {{ end }}
+                                </div>
+                                <a href="/{{ $Post.CompleteURL }}" class="read-more-link">Read article &rarr;</a>
+                            </div>
+                        </div>
+                    </article>
+                    {{ end }}
+                </div>
+            </section>
+        </main>
+
+        {{ template "footer" . }}
+    </div>
+</body>
+</html>
+{{ end }}

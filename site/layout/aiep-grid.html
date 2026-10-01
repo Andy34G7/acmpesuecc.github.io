@@ -1,0 +1,58 @@
+{{ define "aiep-grid" }}
+{{ $PageData := index .DeepDataMerge.Collections .PageURL }}
+{{ template "head" . }}
+
+<body class="site-body">
+    {{ template "header" . }}
+
+    <div class="content-wrapper">
+        <main class="main-content" role="main">
+            <section class="aiep-hero-section">
+                <header class="page-header text-center">
+                    <h1 class="page-title">AIEP Project Showcase</h1>
+                    <p class="page-subtitle">ACM Industrial Experience Program Archive</p>
+                </header>
+
+                <div class="aiep-hero-banner">
+                    <img src="/aiep2024.jpeg" alt="ACM Industrial Experience Program" class="aiep-banner-img" />
+                </div>
+
+                <div class="aiep-archive-bar">
+                    <div class="aiep-archive-buttons">
+                        <a class="btn btn-outline" href="/aiep.html">&larr; Current AIEP 2026</a>
+                        <a class="btn btn-outline" href="/collections/aiep-2024.html">AIEP 2024</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="aiep-projects-section">
+                <div class="section-header">
+                    <h2 class="section-title">PROJECTS</h2>
+                </div>
+
+                <div class="aiep-grid">
+                    {{ range $Project := index .DeepDataMerge.CollectionsMap .PageURL }}
+                    <div class="aiep-card">
+                        <a href="/{{ $Project.CompleteURL }}" class="aiep-card-link">
+                            <h3 class="aiep-card-title">{{ $Project.Frontmatter.Title }}</h3>
+                            {{ if $Project.Frontmatter.Description }}
+                            <p class="aiep-card-desc">{{ $Project.Frontmatter.Description }}</p>
+                            {{ end }}
+                            {{ if $Project.Frontmatter.Authors }}
+                            <p class="aiep-card-leads">
+                                <strong>Team:</strong> {{ range $i, $lead := $Project.Frontmatter.Authors }}{{ if $i }}, {{ end }}{{ $lead }}{{ end }}
+                            </p>
+                            {{ end }}
+                            <span class="aiep-card-cta">View Project &amp; Reports &rarr;</span>
+                        </a>
+                    </div>
+                    {{ end }}
+                </div>
+            </section>
+        </main>
+
+        {{ template "footer" . }}
+    </div>
+</body>
+</html>
+{{ end }}

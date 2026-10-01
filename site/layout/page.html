@@ -1,0 +1,87 @@
+{{ define "page" }}
+{{ $PageData := index .DeepDataMerge.Templates .PageURL }}
+{{ template "head" . }}
+
+<body class="site-body">
+    {{ template "header" . }}
+
+    <div class="content-wrapper">
+        <main class="main-content" role="main">
+            {{ if eq (printf "%s" .PageURL) "index.html" }}
+            <!-- Home Hero Section -->
+            <section class="hero-section">
+                <div class="hero-logo-wrapper">
+                    <img src="/acm_big_logo.png" alt="ACM PESU ECC Chapter Logo" class="hero-logo-img" />
+                </div>
+            </section>
+
+            <!-- Introduction Section -->
+            <section class="intro-section">
+                <div class="prose">
+                    {{ if $PageData }}
+                        {{ $PageData.Body }}
+                    {{ end }}
+                </div>
+            </section>
+
+            <!-- Recent Posts Section -->
+            <section class="recent-posts-section">
+                <div class="section-header">
+                    <h2 class="section-title">RECENT POSTS</h2>
+                    <a href="/collections/posts.html" class="view-all-link">View All Posts &rarr;</a>
+                </div>
+
+                <div class="posts-grid">
+                    {{ range $collection, $PostSet := .DeepDataMerge.CollectionsMap }}
+                        {{ if eq (printf "%s" $collection) "collections/posts.html" }}
+                            {{ range $PostSet }}
+                            <article class="post-card">
+                                <header class="post-card-header">
+                                    <h3 class="post-card-title">
+                                        <a href="/{{ .CompleteURL }}">{{ .Frontmatter.Title }}</a>
+                                    </h3>
+                                    <div class="post-card-meta">
+                                        {{ if .Frontmatter.Date }}
+                                        <time class="post-card-date">{{ .Frontmatter.Date }}</time>
+                                        {{ end }}
+                                        {{ if .Frontmatter.Authors }}
+                                        <span class="post-card-authors">
+                                            by {{ range $i, $author := .Frontmatter.Authors }}{{ if $i }}, {{ end }}{{ $author }}{{ end }}
+                                        </span>
+                                        {{ end }}
+                                    </div>
+                                </header>
+                                {{ if .Frontmatter.Description }}
+                                <p class="post-card-description">{{ .Frontmatter.Description }}</p>
+                                {{ end }}
+                                <div class="post-card-footer">
+                                    <div class="post-tags-list">
+                                        {{ range .Frontmatter.Tags }}
+                                        <a href="/tags/{{ . }}.html" class="tag-badge">#{{ . }}</a>
+                                        {{ end }}
+                                    </div>
+                                    <a href="/{{ .CompleteURL }}" class="read-more-link">Read post &rarr;</a>
+                                </div>
+                            </article>
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                </div>
+            </section>
+            {{ else }}
+            <!-- Standard Content Page Layout -->
+            <article class="standard-page-container">
+                <div class="prose">
+                    {{ if $PageData }}
+                        {{ $PageData.Body }}
+                    {{ end }}
+                </div>
+            </article>
+            {{ end }}
+        </main>
+
+        {{ template "footer" . }}
+    </div>
+</body>
+</html>
+{{ end }}

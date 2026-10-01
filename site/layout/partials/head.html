@@ -1,0 +1,53 @@
+{{ define "head" }}
+{{ $PageData := index .DeepDataMerge.Templates .PageURL }}
+{{ if eq $PageData nil }}
+    {{ $PageData = index .DeepDataMerge.Collections .PageURL }}
+{{ end }}
+{{ if eq $PageData nil }}
+    {{ $PageData = index .DeepDataMerge.Tags .PageURL }}
+{{ end }}
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ if and $PageData $PageData.Frontmatter.Title }}{{ $PageData.Frontmatter.Title }} | {{ end }}{{ .DeepDataMerge.LayoutConfig.SiteTitle }}</title>
+    <meta name="darkreader-lock" />
+    <link rel="icon" href="/acmshortlogo.png" type="image/png" />
+    
+    <!-- Google Fonts: Barlow Semi Condensed, Inter, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@0,400;0,600;0,700;0,800;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="{{ .DeepDataMerge.LayoutConfig.ThemeURL }}" />
+    
+    <link rel="alternate" type="application/rss+xml" title="ACM PESU ECC Feed" href="/feed.xml" />
+
+    <!-- Live reload & scripts -->
+    {{ if $PageData }}
+        {{ if $PageData.LiveReload }}
+        <script>
+            const eventSource = new EventSource("http://localhost:8000/events");
+            eventSource.onmessage = function (event) {
+                location.reload();
+            };
+        </script>
+        {{ end }}
+        {{ range $PageData.Frontmatter.JSFiles }}
+        <script src="/static/scripts/{{ . }}" defer></script>
+        {{ end }}
+    {{ end }}
+    {{ range .DeepDataMerge.LayoutConfig.SiteScripts }}
+    <script src="/static/scripts/{{ . }}" defer></script>
+    {{ end }}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ if and $PageData $PageData.Frontmatter.Title }}{{ $PageData.Frontmatter.Title }}{{ else }}{{ .DeepDataMerge.LayoutConfig.SiteTitle }}{{ end }}" />
+    <meta property="og:description" content="{{ if and $PageData $PageData.Frontmatter.Description }}{{ $PageData.Frontmatter.Description }}{{ else }}ACM Student Chapter at PES University Electronic City Campus{{ end }}" />
+    <meta property="og:image" content="{{ if and $PageData $PageData.Frontmatter.PreviewImage }}{{ $PageData.Frontmatter.PreviewImage }}{{ else }}/acm_big_logo.png{{ end }}" />
+    <meta name="description" content="{{ if and $PageData $PageData.Frontmatter.Description }}{{ $PageData.Frontmatter.Description }}{{ else }}ACM Student Chapter at PES University Electronic City Campus{{ end }}" />
+</head>
+{{ end }}
