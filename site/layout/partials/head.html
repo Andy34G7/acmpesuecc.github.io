@@ -8,13 +8,22 @@
 {{ end }}
 
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ if and $PageData $PageData.Frontmatter.Title }}{{ $PageData.Frontmatter.Title }} | {{ end }}{{ .DeepDataMerge.LayoutConfig.SiteTitle }}</title>
     <meta name="darkreader-lock" />
     <link rel="icon" href="/acmshortlogo.png" type="image/png" />
+
+    <!-- Inline script to set system theme immediately and avoid flash -->
+    <script>
+        (function() {
+            var stored = localStorage.getItem('acm_theme_preference');
+            var theme = stored || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     
     <!-- Google Fonts: Barlow Semi Condensed, Inter, JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
