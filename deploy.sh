@@ -27,7 +27,7 @@ TARBALL="anna_${ARCH}.tar.gz"
 URL="https://github.com/$REPO/releases/download/$LATEST_TAG/$TARBALL"
 
 echo "Downloading $URL..."
-curl -L "$URL" | tar -xz
+curl -L "$URL" | tar -xz anna
 
 if [[ ! -f anna ]]; then
   echo "anna binary not found after extraction"
@@ -37,4 +37,5 @@ fi
 chmod +x anna
 echo "Running anna build..."
 ./anna
+rm -f anna
 echo "Site build complete in site/rendered"
