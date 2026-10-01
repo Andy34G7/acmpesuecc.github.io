@@ -1,40 +1,73 @@
-# ACMPESUECC
+# ACM PESUECC Website
 
-The official website for the ACM PES Student Chapter!
+The official website for the ACM Student Chapter at PES University Electronic City Campus, built with [Anna SSG](https://github.com/anna-ssg/anna).
 
-## Setup
+## Structure
 
-### Clone and install
-
-**NOTE:** Do ensure you have the latest versions of **Node.js** and **npm** available locally.
-
-```bash
-git clone https://github.com/acmpesuecc/acmpesuecc.github.io.git
-cd acmpesuecc.github.io
-npm install
+```
+site/
+├── content/              # Markdown content files
+│   ├── index.md          # Homepage content
+│   ├── about.md          # About page content
+│   ├── aiep.md           # AIEP program page
+│   ├── aiep/             # AIEP project & progress reports
+│   ├── posts/            # Blog posts and announcements
+│   ├── hn7-faq.md        # HackNight 7 FAQ
+│   └── ...
+├── layout/               # HTML layout templates
+│   ├── config.json       # Site configuration & navigation links
+│   ├── robots.txt        # Robots template
+│   ├── page.html         # Base page template
+│   ├── post.html         # Blog post template
+│   ├── all-posts.html    # All posts collection template
+│   ├── aiep.html         # AIEP main template
+│   ├── aiep-grid.html    # AIEP archive & projects grid template
+│   ├── aiep-project.html # Project detail template
+│   ├── aiep-week.html    # Weekly progress report template
+│   └── partials/
+│       ├── head.html     # HTML head partial
+│       ├── header.html   # Left sidebar vertical navigation partial
+│       └── footer.html   # ACM stylistic footer partial
+├── static/               # Static assets
+│   ├── style.css         # Main stylesheet (Barlow Semi Condensed & Inter)
+│   └── scripts/
+│       ├── nav.js        # Responsive left navbar & drawer behavior
+│       └── theme.js      # Light/Dark mode switcher
+└── public/               # Static files copied to root (logos, images, etc.)
 ```
 
-### Run the development server
+## Getting Started
+
+### Prerequisites
+
+Install [Anna SSG](https://github.com/anna-ssg/anna):
 
 ```bash
-npm run dev
+go install github.com/anna-ssg/anna/cmd/anna@latest
 ```
 
-Then, visit [http://localhost:3000](http://localhost:3000) on your browser
+### Local Development & Live Server
 
-### Verify code quality
+Run Anna with live reload:
 
 ```bash
-npm run lint
-npm run format
-npm run format:fix
+anna -s
 ```
 
-### Build for production
+Then visit [http://localhost:8000](http://localhost:8000) in your browser.
+
+### Build for Production
+
+Build the static site into `site/rendered/`:
 
 ```bash
-npm run build
-npm run start
+anna
+```
+
+Or run the deployment script:
+
+```bash
+./deploy.sh
 ```
 
 ## Contributing
@@ -43,10 +76,4 @@ Want to get involved? Check out the [CONTRIBUTING.md](CONTRIBUTING.md) guide to 
 
 ## License
 
-This project is licensed under the MIT License — free for personal and commercial use with attribution.
-
-See the [LICENSE](LICENSE) file for more details.
-
-## Maintainers(s)
-
-[**Achyuth Yogesh Sosale**](https://github.com/achyuthcodes30) - achyuthyogesh0@gmail.com
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
